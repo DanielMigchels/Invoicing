@@ -1,0 +1,22 @@
+FROM node:24 AS angular-build
+WORKDIR /app
+COPY ./Invoicing.UI ./Invoicing.UI
+WORKDIR /app/Invoicing.UI
+RUN npm ci
+RUN npm audit
+RUN npm run build --omit=dev
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dotnet-build
+WORKDIR /src
+COPY ./Invoicing.API .
+RUN dotnet restore
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+WORKDIR /app
+COPY --from=angular-build /app/Invoicing.UI/dist /app/wwwroot
+COPY --from=dotnet-build /app/publish .
+
+EXPOSE 8080
+EXPOSE 8443
+ENTRYPOINT ["dotnet", "Invoicing.API.dll"]
