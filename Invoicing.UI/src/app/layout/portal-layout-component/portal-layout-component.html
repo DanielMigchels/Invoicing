@@ -1,2 +1,58 @@
-<p>portal-layout-component works!</p>
-<router-outlet></router-outlet>
+<div class="w-screen h-screen flex flex-col md:flex-row bg-slate-900 text-white">
+    <div class="bg-slate-800 shadow-xl flex flex-col md:gap-3 min-w-64">
+
+        <div class="flex flex-row justify-between items-center pl-4">
+            <a class="flex items-center justify-start gap-3 px-6 md:py-6 cursor-pointer" routerLink="/portal">
+                <div class="text-3xl text-blue-400">
+                    <ng-icon name="heroReceiptPercent"></ng-icon>
+                </div>
+                <h1 class="font-semibold">Invoicing</h1>
+            </a>
+            <div class="p-6 md:hidden cursor-pointer" (click)="toggleMenu()">
+                <div  class="text-2xl hover:text-blue-400 transition-colors">
+                    @if (isMenuOpen) {
+                    <ng-icon name="heroXMark"></ng-icon>
+                    } @else {
+                    <ng-icon name="heroBars3"></ng-icon>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div
+            [class]="'flex flex-col transition-all duration-300 overflow-hidden ' + (isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 md:max-h-screen md:opacity-100')">
+            <a routerLink="/portal"
+                (click)="closeMenu()"
+                class="py-4 flex justify-start gap-3 p-10 cursor-pointer transition-colors hover:bg-slate-700">
+                <div class="text-2xl flex items-center justify-center" routerLinkActive="text-blue-400" [routerLinkActiveOptions]="{exact: true}">
+                    <ng-icon name="heroRectangleGroup" class=""></ng-icon>
+                </div>
+                <div>Overview</div>
+            </a>
+            <a routerLink="/portal/invoices" (click)="closeMenu()"
+                class="py-4 flex justify-start gap-3 p-10 cursor-pointer transition-colors hover:bg-slate-700">
+                <div class="text-2xl flex items-center justify-center" routerLinkActive="text-blue-400" [routerLinkActiveOptions]="{exact: true}">
+                    <ng-icon name="heroDocumentText" class=""></ng-icon>
+                </div>
+                <div>Invoices</div>
+            </a>
+            <a routerLink="/portal/customers" (click)="closeMenu()"
+                class="py-4 flex justify-start gap-3 p-10 cursor-pointer transition-colors hover:bg-slate-700">
+                <div class="text-2xl flex items-center justify-center" routerLinkActive="text-blue-400" [routerLinkActiveOptions]="{exact: true}">
+                    <ng-icon name="heroUserGroup" class=""></ng-icon>
+                </div>
+                <div>Customers</div>
+            </a>
+            <a routerLink="/portal/companies" (click)="closeMenu()"
+                class="py-4 flex justify-start gap-3 p-10 cursor-pointer transition-colors hover:bg-slate-700">
+                <div class="text-2xl flex items-center justify-center" routerLinkActive="text-blue-400" [routerLinkActiveOptions]="{exact: true}">
+                    <ng-icon name="heroBuildingOffice2" class=""></ng-icon>
+                </div>
+                <div>Companies</div>
+            </a>
+        </div>
+    </div>
+    <div class="flex-1 px-6 py-9 overflow-auto">
+        <router-outlet></router-outlet>
+    </div>
+</div>

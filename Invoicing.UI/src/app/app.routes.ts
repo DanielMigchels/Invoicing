@@ -8,6 +8,7 @@ import { Login } from './login/login';
 import { Invoices } from './invoices/invoices';
 import { Companies } from './companies/companies';
 import { Customers } from './customers/customers';
+import { Portal } from './portal/portal';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,7 @@ export const routes: Routes = [
     component: PortalLayoutComponent,
     canActivate: [authenticationGuard],
     children: [
+      { path: '', component: Portal },
       { path: 'invoices', component: Invoices },
       { path: 'customers', component: Customers },
       { path: 'companies', component: Companies },

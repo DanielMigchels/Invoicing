@@ -34,7 +34,7 @@ export class Login {
       next: response => {
         if (response.success) {
           this.authenticationService.setJwt(response.jwt);
-          this.router.navigate(['/portal/invoices']);
+          this.router.navigate(['/portal']);
         }
         else {
           if (response.isLockedOut) {
