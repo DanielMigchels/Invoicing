@@ -4,4 +4,5 @@ public class LoginResponseModel
 {
     public string Jwt { get; set; } = string.Empty;
     public bool Success { get; set; }
+    public bool IsLockedOut { get; set; }
 }

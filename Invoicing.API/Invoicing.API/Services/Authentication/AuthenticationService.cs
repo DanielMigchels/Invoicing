@@ -39,7 +39,8 @@ public class AuthenticationService(UserManager<User> userManager, SignInManager<
         return new LoginResponseModel()
         {
             Success = result.Succeeded,
-            Jwt = result.Succeeded ? GenerateJwtToken(user) : string.Empty
+            Jwt = result.Succeeded ? GenerateJwtToken(user) : string.Empty,
+            IsLockedOut = result.IsLockedOut
         };
     }
 
