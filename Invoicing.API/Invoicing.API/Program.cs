@@ -8,7 +8,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddSpaStaticFiles(options =>
 {
-    options.RootPath = "wwwroot/Invoices.ui/browser";
+    options.RootPath = "wwwroot/Invoicing.UI/browser";
 });
 
 var app = builder.Build();

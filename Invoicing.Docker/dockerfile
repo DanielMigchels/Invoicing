@@ -6,13 +6,13 @@ RUN npm ci
 RUN npm audit
 RUN npm run build --omit=dev
 
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dotnet-build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS dotnet-build
 WORKDIR /src
 COPY ./Invoicing.API .
 RUN dotnet restore
 RUN dotnet publish -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=angular-build /app/Invoicing.UI/dist /app/wwwroot
 COPY --from=dotnet-build /app/publish .
