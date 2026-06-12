@@ -1,41 +1,52 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()" class="flex flex-col gap-3 max-w-md text-white">
   <h1 class="text-3xl">Login</h1>
   <p class="text-slate-400 text-justify">
-    Enter your email and password to log in to your account. If you don't have an account yet, you can register by clicking the link below.
+    Enter your email and password to log in to your account. If you don't have an account yet, you can register by
+    clicking the link below.
   </p>
 
   <div class="flex flex-col gap-1">
-    <input class="border bg-purple border-slate-500 rounded p-2 mt-2 w-full text-white placeholder:text-slate-400 focus:border-blue-400 focus:outline-none transition-colors" type="email"
-      formControlName="email" placeholder="E-mail" autocomplete="email">
+    <input
+      class="border bg-purple border-slate-500 rounded p-2 mt-2 w-full text-white placeholder:text-slate-400 focus:border-blue-400 focus:outline-none transition-colors"
+      type="email" formControlName="email" placeholder="E-mail" autocomplete="email">
     @if (formGroup.get('email')?.invalid && formGroup.get('email')?.touched) {
-      <div class="text-red-400 text-sm">
-        @if (formGroup.get('email')?.errors?.['required']) {
-          <span>Email is required.</span>
-        }
-        @if (formGroup.get('email')?.errors?.['email']) {
-          <span>Enter a valid email address.</span>
-        }
-      </div>
+    <div class="text-red-400 text-sm">
+      @if (formGroup.get('email')?.errors?.['required']) {
+      <span>Email is required.</span>
+      }
+      @if (formGroup.get('email')?.errors?.['email']) {
+      <span>Enter a valid email address.</span>
+      }
+    </div>
     }
   </div>
 
   <div class="flex flex-col gap-1">
-    <input class="border bg-purple border-slate-500 rounded p-2 mt-2 w-full text-white placeholder:text-slate-400 focus:border-blue-400 focus:outline-none transition-colors" type="password"
-      formControlName="password" placeholder="Password" autocomplete="current-password">
+    <input
+      class="border bg-purple border-slate-500 rounded p-2 mt-2 w-full text-white placeholder:text-slate-400 focus:border-blue-400 focus:outline-none transition-colors"
+      type="password" formControlName="password" placeholder="Password" autocomplete="current-password">
     @if (formGroup.get('password')?.invalid && formGroup.get('password')?.touched) {
-      <div class="text-red-400 text-sm">
-        <span>Password is required.</span>
-      </div>
+    <div class="text-red-400 text-sm">
+      <span>Password is required.</span>
+    </div>
     }
   </div>
 
   @if (rejected) {
-    <div class="text-red-400 text-sm">
-      <span>Invalid email or password.</span>
-    </div>
+  <div class="text-red-400 text-sm">
+    <span>Incorrect email and password combination.</span>
+  </div>
   }
 
-  <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 transform transition-all cursor-pointer rounded p-2 mt-2 shadow-lg shadow-blue-900/40">
+
+  @if (lockout) {
+  <div class="text-red-400 text-sm">
+    <span>Your account is locked due to multiple failed login attempts. Please try again later.</span>
+  </div>
+  }
+
+  <button type="submit"
+    class="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 transform transition-all cursor-pointer rounded p-2 mt-2 shadow-lg shadow-blue-900/40">
     Inloggen
   </button>
 

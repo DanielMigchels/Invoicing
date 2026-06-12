@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication/authentication-service';
@@ -13,13 +13,14 @@ import { LoginRequestModel } from '../../services/authentication/models/login-re
 export class Login {
 
   rejected = false;
+  lockout = false;
 
   formGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
-  
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+
+  constructor(private authenticationService: AuthenticationService, private router: Router, private cdr: ChangeDetectorRef) { }
 
   login() {
     this.rejected = false;
@@ -36,14 +37,21 @@ export class Login {
           this.router.navigate(['/portal/invoices']);
         }
         else {
-          this.rejected = true;
+          if (response.isLockedOut) {
+            this.lockout = true;
+          }
+          else {
+            this.rejected = true;
+          }
+
+          this.cdr.markForCheck();
         }
       },
       error: error => {
         this.rejected = true;
+        this.cdr.markForCheck();
       }
     }
     );
   }
-
 }

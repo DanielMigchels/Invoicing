@@ -1,0 +1,47 @@
+<div *ngIf="totalItems > 0" class="w-full">
+  <div class="overflow-x-auto rounded">
+    <table class="min-w-full divide-y divide-text/20">
+      <thead class="bg-background-darkest">
+        <tr>
+          <th *ngFor="let column of columns"
+            class="px-6 py-3 text-left text-xs font-medium text-text/70 uppercase tracking-wider">
+            <ng-container *ngTemplateOutlet="column.template"></ng-container>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-background-dark divide-y divide-text/10">
+        <tr *ngFor="let row of rows" class="hover:bg-background-darkest transition-colors">
+          <td *ngFor="let cell of row.cells" class="px-6 py-4 text-sm text-text">
+            <ng-container *ngTemplateOutlet="cell.template"></ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="data" class="mt-4 flex items-center justify-between">
+    <div class="text-sm text-text/60">
+      Page {{ data.page }} | {{ totalItems }} items
+    </div>
+    <div class="flex gap-2">
+      <button (click)="onPrevious()" [disabled]="!data.hasPrevious"
+        class="px-4 py-2 text-sm font-medium rounded transition-colors"
+        [ngClass]="{'bg-primary text-white hover:bg-primary/80 cursor-pointer': data.hasPrevious,'bg-text/5 text-text/40 cursor-not-allowed': !data.hasPrevious}">
+        Previous
+      </button>
+      <button (click)="onNext()" [disabled]="!data.hasNext"
+        class="px-4 py-2 text-sm font-medium rounded transition-colors"
+        [ngClass]="{ 'bg-primary text-white hover:bg-primary/80 cursor-pointer': data.hasNext, 'bg-text/5 text-text/40 cursor-not-allowed': !data.hasNext }">
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="totalItems === 0" class="text-center py-8 text-text/60">
+  <p>No data available</p>
+</div>
+
+<div style="display: none;">
+  <ng-content></ng-content>
+</div>
