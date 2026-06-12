@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: {{ .Release.Name }}-postgres
   namespace: {{ .Release.Namespace }}
 spec:
-  serviceName: postgres
+  serviceName: {{ .Release.Name }}-postgres
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: {{ .Release.Name }}-postgres
   template:
     metadata:
       labels:
-        app: postgres
+        app: {{ .Release.Name }}-postgres
     spec:
       containers:
         - name: postgres
@@ -23,7 +23,13 @@ spec:
               name: postgres
           envFrom:
             - configMapRef:
-                name: postgres-configmap
+                name: {{ .Release.Name }}-postgres-configmap
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-postgres-secret
+                  key: password
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-storage

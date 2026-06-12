@@ -3,12 +3,12 @@ kind: PersistentVolume
 metadata:
   name: {{ .Release.Name }}-postgres-volume
   labels:
-    app: postgres
+    app: {{ .Release.Name }}-postgres
 spec:
   storageClassName: manual
   capacity:
     storage: 2Gi
   accessModes:
-    - ReadWriteMany 
+    - ReadWriteOnce
   hostPath:
     path: /data/{{ .Release.Name }}/postgresql/
