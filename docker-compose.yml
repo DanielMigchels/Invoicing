@@ -1,6 +1,6 @@
 services:
 
-  release-notes:
+  invoicing:
     build:
       context: .
       dockerfile: Invoicing.Docker/dockerfile

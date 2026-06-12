@@ -1,0 +1,7 @@
+namespace: invoicing
+connectionstrings:
+  postgres: "Host=postgres;Port=5432;Database=postgres;Username=postgres;Password=postgres"
+postgres:
+  database: "postgres"
+  username: "postgres"
+  password: "postgres"
