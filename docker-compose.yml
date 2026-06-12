@@ -1,0 +1,33 @@
+services:
+
+  release-notes:
+    build:
+      context: .
+      dockerfile: Invoicing.Docker/dockerfile
+    ports:
+      - 8080:8080
+      - 8443:8443
+    environment:
+      - JwtOptions__Secret=placeholder-placeholder-placeholder
+      - ConnectionStrings__Postgres=Host=postgres;Port=5432;Database=postgres;Username=postgres;Password=postgres;
+    depends_on:
+      - postgres
+    networks:
+      - invoicing_network
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      - invoicing_network
+
+networks:
+  invoicing_network:
+    driver: bridge
