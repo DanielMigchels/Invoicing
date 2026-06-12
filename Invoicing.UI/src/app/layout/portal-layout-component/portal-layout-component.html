@@ -50,6 +50,13 @@
                 </div>
                 <div>Companies</div>
             </a>
+            <a (click)="logout(); closeMenu()"
+                class="py-4 flex justify-start gap-3 p-10 cursor-pointer transition-colors hover:bg-slate-700 text-red-400 hover:text-red-300 md:mt-auto">
+                <div class="text-2xl flex items-center justify-center">
+                    <ng-icon name="heroArrowLeftOnRectangle"></ng-icon>
+                </div>
+                <div>Logout</div>
+            </a>
         </div>
     </div>
     <div class="flex-1 px-6 py-9 overflow-auto">

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
+import { AuthenticationService } from '../../../services/authentication/authentication-service';
 
 @Component({
   selector: 'app-portal-layout-component',
@@ -11,11 +12,17 @@ import { NgIcon } from '@ng-icons/core';
 export class PortalLayoutComponent {
   isMenuOpen = false;
 
+  private authenticationService = inject(AuthenticationService);
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
   closeMenu() {
     this.isMenuOpen = false;
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 }
