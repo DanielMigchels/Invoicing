@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoginRequestModel } from './authentication/models/login-request-model';
-import { LoginResponseModel } from './authentication/models/login-response-model';
-import { RegisterRequestModel } from './authentication/models/register-request-model';
-import { RegisterResponseModel } from './authentication/models/register-response-model';
+import { LoginRequestModel } from './models/login-request-model';
+import { LoginResponseModel } from './models/login-response-model';
+import { RegisterRequestModel } from './models/register-request-model';
+import { RegisterResponseModel } from './models/register-response-model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

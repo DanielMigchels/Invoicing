@@ -1,1 +1,49 @@
-<p>login works!</p>
+<form [formGroup]="formGroup" (ngSubmit)="login()" class="flex flex-col gap-3 max-w-md text-white">
+  <h1 class="text-3xl">Login</h1>
+  <p class="text-gray text-justify">
+    Enter your email and password to log in to your account. If you don't have an account yet, you can register by clicking the link below.
+  </p>
+
+  <div class="flex flex-col gap-1">
+    <input class="border bg-purple border-white rounded p-2 mt-2 w-full text-white placeholder:text-gray" type="email"
+      formControlName="email" placeholder="E-mail" autocomplete="email">
+    @if (formGroup.get('email')?.invalid && formGroup.get('email')?.touched) {
+      <div class="text-red-400 text-sm">
+        @if (formGroup.get('email')?.errors?.['required']) {
+          <span>Email is required.</span>
+        }
+        @if (formGroup.get('email')?.errors?.['email']) {
+          <span>Enter a valid email address.</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <input class="border bg-purple border-white rounded p-2 mt-2 w-full text-white placeholder:text-gray" type="password"
+      formControlName="password" placeholder="Password" autocomplete="current-password">
+    @if (formGroup.get('password')?.invalid && formGroup.get('password')?.touched) {
+      <div class="text-red-400 text-sm">
+        <span>Password is required.</span>
+      </div>
+    }
+  </div>
+
+  @if (rejected) {
+    <div class="text-red-400 text-sm">
+      <span>Invalid email or password.</span>
+    </div>
+  }
+
+  <button type="submit" class="bg-blue-700 hover:bg-blue-800 transform transition-all cursor-pointer rounded p-2 mt-2">
+    Inloggen
+  </button>
+
+  <!-- TODO: register.
+  
+  <div class="flex justify-center">
+    <a class="text-blue hover:underline cursor-pointer">I don't have an account.</a>
+  </div>
+  -->
+
+</form>
