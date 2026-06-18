@@ -1,0 +1,96 @@
+<app-generic-off-canvas-drawer #drawer title="Edit Company">
+  <form [formGroup]="formGroup" class="flex flex-col gap-4">
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Name</label>
+      <input formControlName="name" type="text" placeholder="Company name" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('name')?.errors?.['required']">Name is required.</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Street</label>
+        <input formControlName="street" type="text" placeholder="Street" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('street')?.invalid && formGroup.get('street')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('street')?.errors?.['required']">Street is required.</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">House Number</label>
+        <input formControlName="houseNumber" type="text" placeholder="No." class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('houseNumber')?.invalid && formGroup.get('houseNumber')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('houseNumber')?.errors?.['required']">House number is required.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Postal Code</label>
+        <input formControlName="postalCode" type="text" placeholder="Postal code" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('postalCode')?.invalid && formGroup.get('postalCode')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('postalCode')?.errors?.['required']">Postal code is required.</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">City</label>
+        <input formControlName="city" type="text" placeholder="City" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('city')?.invalid && formGroup.get('city')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('city')?.errors?.['required']">City is required.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Country</label>
+      <input formControlName="country" type="text" placeholder="Country" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('country')?.invalid && formGroup.get('country')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('country')?.errors?.['required']">Country is required.</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Email</label>
+      <input formControlName="email" type="email" placeholder="email@company.com" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="formGroup.get('email')?.errors?.['email']">Enter a valid email address.</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Phone Number</label>
+      <input formControlName="phoneNumber" type="tel" placeholder="+31 6 00000000" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('phoneNumber')?.invalid && formGroup.get('phoneNumber')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('phoneNumber')?.errors?.['required']">Phone number is required.</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Bank Account Number</label>
+      <input formControlName="bankAccountNumber" type="text" placeholder="IBAN" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('bankAccountNumber')?.invalid && formGroup.get('bankAccountNumber')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('bankAccountNumber')?.errors?.['required']">Bank account number is required.</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Chamber of Commerce Number <span class="text-slate-500">(optional)</span></label>
+      <input formControlName="chamberOfCommerceNumber" type="text" placeholder="Optional" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">VAT Number <span class="text-slate-500">(optional)</span></label>
+      <input formControlName="vatNumber" type="text" placeholder="Optional" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <button type="button" *ngIf="!isSubmitting" (click)="updateCompany()" class="shadow rounded py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white cursor-pointer transition-colors">
+        Update Company
+      </button>
+      <app-loader *ngIf="isSubmitting"></app-loader>
+    </div>
+  </form>
+</app-generic-off-canvas-drawer>

@@ -1,0 +1,22 @@
+<app-generic-off-canvas-drawer #drawer title="Delete Company">
+  <div class="flex flex-col gap-4">
+    <div>
+      Are you sure you want to delete <span class="font-bold">{{ company?.name }}</span>?
+    </div>
+    <div class="font-bold text-red-400">
+      This cannot be undone.
+    </div>
+    <div class="flex justify-between items-center">
+      <label class="py-2 cursor-pointer flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="isChecked" class="cursor-pointer">
+        <span>I am sure</span>
+      </label>
+      <div class="flex justify-end" *ngIf="isChecked">
+        <button *ngIf="!isSubmitting" (click)="deleteCompany()" class="shadow rounded py-2 px-4 bg-red-600 hover:bg-red-700 text-white cursor-pointer transition-colors">
+          Delete
+        </button>
+        <app-loader *ngIf="isSubmitting"></app-loader>
+      </div>
+    </div>
+  </div>
+</app-generic-off-canvas-drawer>

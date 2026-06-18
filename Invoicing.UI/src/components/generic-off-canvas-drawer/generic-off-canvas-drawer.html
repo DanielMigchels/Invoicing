@@ -1,12 +1,12 @@
 <div *ngIf="showDrawer" class="fixed inset-0 z-50 outline-none focus:outline-none flex justify-end transition-opacity duration-300" [class.opacity-100]="isOpening" [class.opacity-0]="!isOpening" (click)="closeDrawer()">
   <div class="h-full w-full max-w-md transform transition-transform duration-300 ease-out" [class.translate-x-0]="isOpening && !isClosing" [class.translate-x-full]="!isOpening || isClosing" (click)="$event.stopPropagation()">
-    <div class="shadow-xl h-full flex flex-col bg-background-dark outline-none focus:outline-none">
+    <div class="shadow-xl h-full flex flex-col bg-slate-800 outline-none focus:outline-none">
       <div class="flex flex-col h-full">
-        <div class="flex justify-between items-center p-4 bg-background-darkest">
+        <div class="flex justify-between items-center p-4 bg-slate-900">
           <div class="text-xl font-semibold">
             {{title}}
           </div>
-          <button (click)="closeDrawer()" class="text-gray hover:text-dark-gray -m-3 p-3 cursor-pointer">
+          <button (click)="closeDrawer()" class="text-slate-400 hover:text-white -m-3 p-3 cursor-pointer">
             <ng-icon name="hero-x-mark"></ng-icon>
           </button>
         </div>

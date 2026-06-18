@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { NgIconComponent } from '@ng-icons/core';
 
 @Component({
@@ -16,7 +16,7 @@ export class GenericOffCanvasDrawer {
   @Output() DrawerClosed = new EventEmitter();
   @Input() title: string = '';
 
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   @HostListener('document:keydown', ['$event'])
   onEscapeKey(event: KeyboardEvent) {
@@ -31,18 +31,21 @@ export class GenericOffCanvasDrawer {
     this.showDrawer = true;
     this.isClosing = false;
     this.isOpening = false;
-    // Trigger animation after a brief delay to ensure DOM is ready
+    this.cdr.detectChanges(); // render the drawer in its initial off-screen position first
     setTimeout(() => {
       this.isOpening = true;
+      this.cdr.detectChanges(); // then shift to translate-x-0 so CSS transition fires
     }, 10);
   }
 
   closeDrawer() {
     this.isClosing = true;
     this.isOpening = false;
+    this.cdr.detectChanges();
     setTimeout(() => {
       this.showDrawer = false;
       this.isClosing = false;
+      this.cdr.detectChanges();
     }, 300); // Match animation duration
   }
 }
