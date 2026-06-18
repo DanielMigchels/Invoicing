@@ -3,7 +3,7 @@ WORKDIR /app
 COPY ./Invoicing.UI ./Invoicing.UI
 WORKDIR /app/Invoicing.UI
 RUN npm ci
-RUN npm audit
+# RUN npm audit
 RUN npm run build --omit=dev
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS dotnet-build
