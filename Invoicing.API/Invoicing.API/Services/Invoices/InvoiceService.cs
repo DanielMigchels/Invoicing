@@ -1,12 +1,13 @@
 ﻿using Invoicing.API.Data;
 using Invoicing.API.Data.Models;
+using Invoicing.API.Services.InvoicePdfGenerator;
 using Invoicing.API.Services.Invoices.Models;
 using Invoicing.API.Services.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace Invoicing.API.Services.Invoices;
 
-public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
+public class InvoiceService(DatabaseContext databaseContext, IInvoicePdfGeneratorService invoicePdfGeneratorService) : IInvoiceService
 {
     public async Task<PaginatedList<InvoiceResponseModel>> GetAll(string userId, int page, int pageSize)
     {
@@ -126,4 +127,17 @@ public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
         PaymentReference = i.PaymentReference,
         Notes = i.Notes
     };
+
+    public async Task<Stream?> DownloadPdf(string userId, Guid id)
+    {
+        var invoice = await GetById(userId, id);
+
+        if (invoice == null)
+        {
+            return null;
+        }
+
+        var pdf = invoicePdfGeneratorService.GeneratePdf(invoice);
+        return pdf;
+    }
 }

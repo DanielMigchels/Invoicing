@@ -5,6 +5,7 @@ using Invoicing.API.Services.Authentication;
 using Invoicing.API.Services.Companies;
 using Invoicing.API.Services.Customers;
 using Invoicing.API.Services.InvoiceLines;
+using Invoicing.API.Services.InvoicePdfGenerator;
 using Invoicing.API.Services.Invoices;
 using Invoicing.API.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,6 +66,7 @@ builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<ICompanyService, CompanyService>();
 builder.Services.AddTransient<IInvoiceService, InvoiceService>();
 builder.Services.AddTransient<IInvoiceLineService, InvoiceLineService>();
+builder.Services.AddTransient<IInvoicePdfGeneratorService, InvoicePdfGeneratorService>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

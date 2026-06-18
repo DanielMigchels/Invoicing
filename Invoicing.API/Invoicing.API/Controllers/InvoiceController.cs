@@ -24,6 +24,14 @@ public class InvoiceController(IInvoiceService invoiceService) : AppControllerBa
         return result == null ? NotFound() : Ok(result);
     }
 
+    [Authorize]
+    [HttpGet("{id:guid}/pdf")]
+    public async Task<IActionResult> DownloadPdf([FromRoute] Guid id)
+    {
+        var result = await invoiceService.DownloadPdf(UserId, id);
+        return result != null ? File(result, "application/pdf", "ReleaseNotes.pdf") : BadRequest();
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateInvoiceRequestModel model)
     {
