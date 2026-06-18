@@ -5,9 +5,6 @@ export interface UpdateInvoiceRequestModel {
   companyId: string;
   customerId: string;
   currency: string;
-  totalExcludingVat: number;
-  vatAmount: number;
-  totalIncludingVat: number;
   vatExemptionReason: string | null;
   paymentReference: string | null;
   notes: string | null;

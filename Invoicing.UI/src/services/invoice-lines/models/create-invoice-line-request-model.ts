@@ -1,7 +1,7 @@
 export interface CreateInvoiceLineRequestModel {
   description: string;
   quantity: number;
-  unit: string;
+  unit: string | null;
   unitPrice: number;
   discountAmount: number;
   vatPercentage: number;

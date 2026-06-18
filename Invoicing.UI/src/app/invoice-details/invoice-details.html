@@ -92,7 +92,7 @@
     </app-generic-datagrid-columns>
     <app-generic-datagrid-row *ngFor="let line of invoiceLines?.data" [item]="line">
       <app-generic-datagrid-cell>{{ line.description }}</app-generic-datagrid-cell>
-      <app-generic-datagrid-cell>{{ line.quantity }} {{ line.unit }}</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>{{ line.quantity }}{{ line.unit ? ' ' + line.unit : '' }}</app-generic-datagrid-cell>
       <app-generic-datagrid-cell>{{ line.unitPrice | currency:invoice.currency }}</app-generic-datagrid-cell>
       <app-generic-datagrid-cell>{{ line.discountAmount > 0 ? (line.discountAmount | currency:invoice.currency) : '—' }}</app-generic-datagrid-cell>
       <app-generic-datagrid-cell>{{ line.vatPercentage }}%</app-generic-datagrid-cell>
@@ -139,18 +139,18 @@
 <app-create-invoice-line
   #createLineDrawer
   [invoiceId]="invoiceId!"
-  (drawerClosed)="loadInvoiceLines()">
+  (drawerClosed)="reloadAfterLineMutation()">
 </app-create-invoice-line>
 
 <app-edit-invoice-line
   #editLineDrawer
   [invoiceId]="invoiceId!"
-  (drawerClosed)="loadInvoiceLines()">
+  (drawerClosed)="reloadAfterLineMutation()">
 </app-edit-invoice-line>
 
 <app-delete-invoice-line
   #deleteLineDrawer
   [invoiceId]="invoiceId!"
-  (drawerClosed)="loadInvoiceLines()">
+  (drawerClosed)="reloadAfterLineMutation()">
 </app-delete-invoice-line>
 

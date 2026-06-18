@@ -10,8 +10,7 @@ public class CreateInvoiceLineRequestModel
     [Required, Range(0.001, double.MaxValue)]
     public decimal Quantity { get; set; } = 1m;
 
-    [Required]
-    public string Unit { get; set; } = "st";
+    public string? Unit { get; set; }
 
     [Required]
     public decimal UnitPrice { get; set; }

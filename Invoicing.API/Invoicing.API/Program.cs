@@ -83,6 +83,8 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference("/scalar");
 }
 
+app.UseSerilogRequestLogging();
+
 app.UseAuthorization();
 
 // Static files

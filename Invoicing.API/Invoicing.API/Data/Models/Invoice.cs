@@ -20,10 +20,6 @@ public class Invoice
 
     public string Currency { get; set; } = "EUR";
 
-    public decimal TotalExcludingVat { get; set; }
-    public decimal VatAmount { get; set; }
-    public decimal TotalIncludingVat { get; set; }
-
     public string? VatExemptionReason { get; set; }
 
     public string? PaymentReference { get; set; }

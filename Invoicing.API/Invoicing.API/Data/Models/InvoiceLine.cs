@@ -11,7 +11,7 @@ public class InvoiceLine
 
     public decimal Quantity { get; set; } = 1m;
 
-    public string Unit { get; set; } = "st";
+    public string? Unit { get; set; }
 
     public decimal UnitPrice { get; set; }
 

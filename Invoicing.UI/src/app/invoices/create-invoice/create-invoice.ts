@@ -31,9 +31,6 @@ export class CreateInvoice {
     companyId: new FormControl('', [Validators.required]),
     customerId: new FormControl('', [Validators.required]),
     currency: new FormControl('EUR', [Validators.required]),
-    totalExcludingVat: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
-    vatAmount: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
-    totalIncludingVat: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
     vatExemptionReason: new FormControl<string | null>(null),
     paymentReference: new FormControl<string | null>(null),
     notes: new FormControl<string | null>(null),
@@ -47,7 +44,7 @@ export class CreateInvoice {
   ) { }
 
   openDrawer(event: Event) {
-    this.formGroup.reset({ currency: 'EUR', totalExcludingVat: 0, vatAmount: 0, totalIncludingVat: 0 });
+    this.formGroup.reset({ currency: 'EUR' });
     this.loadDropdowns();
     this.drawer.openDrawer(event);
   }

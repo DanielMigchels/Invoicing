@@ -121,6 +121,11 @@ export class InvoiceDetails implements OnInit {
     this.deleteLineDrawer.openDrawer(event, line);
   }
 
+  reloadAfterLineMutation(): void {
+    this.loadInvoice();
+    this.loadInvoiceLines();
+  }
+
   generatePdf(): void {
     if (!this.invoice) return;
 
@@ -138,7 +143,7 @@ export class InvoiceDetails implements OnInit {
     const lineRows = lines.map((l) => `
       <tr>
         <td>${l.description}</td>
-        <td class="center">${l.quantity} ${l.unit}</td>
+        <td class="center">${l.quantity}${l.unit ? ' ' + l.unit : ''}</td>
         <td class="right">${formatCurrency(l.unitPrice)}</td>
         <td class="right">${l.discountAmount > 0 ? formatCurrency(l.discountAmount) : '—'}</td>
         <td class="right">${l.vatPercentage}%</td>

@@ -21,12 +21,9 @@
         </div>
       </div>
       <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium">Unit</label>
+        <label class="text-sm font-medium">Unit <span class="text-slate-500">(optional)</span></label>
         <input formControlName="unit" type="text" placeholder="pcs, hr, kg…"
           class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
-        <div *ngIf="formGroup.get('unit')?.invalid && formGroup.get('unit')?.touched" class="text-red-400 text-sm">
-          <span *ngIf="formGroup.get('unit')?.errors?.['required']">Unit is required.</span>
-        </div>
       </div>
     </div>
 

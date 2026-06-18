@@ -25,7 +25,7 @@ export class EditInvoiceLine implements OnDestroy {
   formGroup = new FormGroup({
     description: new FormControl('', [Validators.required]),
     quantity: new FormControl<number>(1, [Validators.required, Validators.min(0)]),
-    unit: new FormControl('', [Validators.required]),
+    unit: new FormControl<string | null>(null),
     unitPrice: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
     discountAmount: new FormControl<number>(0, [Validators.min(0)]),
     vatPercentage: new FormControl<number>(21, [Validators.required, Validators.min(0), Validators.max(100)]),

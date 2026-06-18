@@ -13,6 +13,7 @@ public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
         var query = databaseContext.Invoices
             .Include(i => i.Company)
             .Include(i => i.Customer)
+            .Include(i => i.InvoiceLines)
             .Where(i => i.UserId == userId);
 
         var total = await query.CountAsync();
@@ -39,6 +40,7 @@ public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
         var invoice = await databaseContext.Invoices
             .Include(i => i.Company)
             .Include(i => i.Customer)
+            .Include(i => i.InvoiceLines)
             .Where(i => i.UserId == userId && i.Id == id)
             .FirstOrDefaultAsync();
 
@@ -57,9 +59,6 @@ public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
             CompanyId = model.CompanyId,
             CustomerId = model.CustomerId,
             Currency = model.Currency,
-            TotalExcludingVat = model.TotalExcludingVat,
-            VatAmount = model.VatAmount,
-            TotalIncludingVat = model.TotalIncludingVat,
             VatExemptionReason = model.VatExemptionReason,
             PaymentReference = model.PaymentReference,
             Notes = model.Notes
@@ -88,9 +87,6 @@ public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
         invoice.CompanyId = model.CompanyId;
         invoice.CustomerId = model.CustomerId;
         invoice.Currency = model.Currency;
-        invoice.TotalExcludingVat = model.TotalExcludingVat;
-        invoice.VatAmount = model.VatAmount;
-        invoice.TotalIncludingVat = model.TotalIncludingVat;
         invoice.VatExemptionReason = model.VatExemptionReason;
         invoice.PaymentReference = model.PaymentReference;
         invoice.Notes = model.Notes;
@@ -123,9 +119,9 @@ public class InvoiceService(DatabaseContext databaseContext) : IInvoiceService
         CustomerId = i.CustomerId,
         CustomerName = i.Customer?.Name ?? string.Empty,
         Currency = i.Currency,
-        TotalExcludingVat = i.TotalExcludingVat,
-        VatAmount = i.VatAmount,
-        TotalIncludingVat = i.TotalIncludingVat,
+        TotalExcludingVat = i.InvoiceLines.Sum(l => l.Quantity * l.UnitPrice - l.DiscountAmount),
+        VatAmount = i.InvoiceLines.Sum(l => (l.Quantity * l.UnitPrice - l.DiscountAmount) * l.VatPercentage / 100),
+        TotalIncludingVat = i.InvoiceLines.Sum(l => l.Total),
         VatExemptionReason = i.VatExemptionReason,
         PaymentReference = i.PaymentReference,
         Notes = i.Notes
