@@ -1,1 +1,38 @@
-<p>invoices works!</p>
+<div class="flex justify-between w-full items-center mb-6">
+  <h1 class="text-2xl font-bold">Invoices</h1>
+  <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded cursor-pointer transition-colors" (click)="addInvoice($event)">Create invoice</button>
+</div>
+
+<app-generic-datagrid [data]="invoices" (next)="onNext()" (previous)="onPrevious()">
+  <app-generic-datagrid-columns>
+    <app-generic-datagrid-column>Invoice #</app-generic-datagrid-column>
+    <app-generic-datagrid-column>Company</app-generic-datagrid-column>
+    <app-generic-datagrid-column>Customer</app-generic-datagrid-column>
+    <app-generic-datagrid-column>Invoice Date</app-generic-datagrid-column>
+    <app-generic-datagrid-column>Due Date</app-generic-datagrid-column>
+    <app-generic-datagrid-column>Total Incl. VAT</app-generic-datagrid-column>
+    <app-generic-datagrid-column>Actions</app-generic-datagrid-column>
+  </app-generic-datagrid-columns>
+  <app-generic-datagrid-row *ngFor="let item of invoices?.data" [item]="item">
+    <app-generic-datagrid-cell>
+      <a [routerLink]="['/portal/invoices', item.id]" class="text-blue-400 hover:text-blue-300 hover:underline cursor-pointer">
+        {{ item.invoiceNumber }}
+      </a>
+    </app-generic-datagrid-cell>
+    <app-generic-datagrid-cell>{{ item.companyName }}</app-generic-datagrid-cell>
+    <app-generic-datagrid-cell>{{ item.customerName }}</app-generic-datagrid-cell>
+    <app-generic-datagrid-cell>{{ item.invoiceDate | date:'mediumDate' }}</app-generic-datagrid-cell>
+    <app-generic-datagrid-cell>{{ item.dueDate | date:'mediumDate' }}</app-generic-datagrid-cell>
+    <app-generic-datagrid-cell>{{ item.totalIncludingVat | currency:item.currency }}</app-generic-datagrid-cell>
+    <app-generic-datagrid-cell>
+      <div class="flex gap-2">
+        <button (click)="editInvoice($event, item)" class="px-2 py-1 text-xs bg-blue-600/20 text-blue-400 rounded hover:bg-blue-600/30 cursor-pointer">Edit</button>
+        <button (click)="deleteInvoice($event, item)" class="px-2 py-1 text-xs bg-red-600/20 text-red-400 rounded hover:bg-red-600/30 cursor-pointer">Delete</button>
+      </div>
+    </app-generic-datagrid-cell>
+  </app-generic-datagrid-row>
+</app-generic-datagrid>
+
+<app-create-invoice #createInvoiceDrawer (drawerClosed)="loadInvoices()"></app-create-invoice>
+<app-edit-invoice #editInvoiceDrawer [invoice]="selectedInvoice" (drawerClosed)="loadInvoices()"></app-edit-invoice>
+<app-delete-invoice #deleteInvoiceDrawer [invoice]="selectedInvoice" (drawerClosed)="loadInvoices()"></app-delete-invoice>

@@ -1,0 +1,97 @@
+<app-generic-off-canvas-drawer #drawer title="Create Invoice">
+  <form [formGroup]="formGroup" class="flex flex-col gap-4">
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Invoice Number</label>
+      <input formControlName="invoiceNumber" type="text" placeholder="INV-0001" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('invoiceNumber')?.invalid && formGroup.get('invoiceNumber')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('invoiceNumber')?.errors?.['required']">Invoice number is required.</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Invoice Date</label>
+        <input formControlName="invoiceDate" type="date" class="bg-slate-900 w-full px-3 py-2 rounded border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('invoiceDate')?.invalid && formGroup.get('invoiceDate')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('invoiceDate')?.errors?.['required']">Invoice date is required.</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Due Date</label>
+        <input formControlName="dueDate" type="date" class="bg-slate-900 w-full px-3 py-2 rounded border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('dueDate')?.invalid && formGroup.get('dueDate')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('dueDate')?.errors?.['required']">Due date is required.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Company</label>
+      <select formControlName="companyId" class="bg-slate-900 w-full px-3 py-2 rounded border border-slate-700 focus:outline-none focus:border-blue-500">
+        <option value="" disabled selected>Select company</option>
+        <option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</option>
+      </select>
+      <div *ngIf="formGroup.get('companyId')?.invalid && formGroup.get('companyId')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('companyId')?.errors?.['required']">Company is required.</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Customer</label>
+      <select formControlName="customerId" class="bg-slate-900 w-full px-3 py-2 rounded border border-slate-700 focus:outline-none focus:border-blue-500">
+        <option value="" disabled selected>Select customer</option>
+        <option *ngFor="let c of customers" [value]="c.id">{{ c.name }}</option>
+      </select>
+      <div *ngIf="formGroup.get('customerId')?.invalid && formGroup.get('customerId')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('customerId')?.errors?.['required']">Customer is required.</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Currency</label>
+      <input formControlName="currency" type="text" placeholder="EUR" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('currency')?.invalid && formGroup.get('currency')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('currency')?.errors?.['required']">Currency is required.</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Excl. VAT</label>
+        <input formControlName="totalExcludingVat" type="number" min="0" step="0.01" placeholder="0.00" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">VAT Amount</label>
+        <input formControlName="vatAmount" type="number" min="0" step="0.01" placeholder="0.00" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Incl. VAT</label>
+        <input formControlName="totalIncludingVat" type="number" min="0" step="0.01" placeholder="0.00" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">VAT Exemption Reason <span class="text-slate-500">(optional)</span></label>
+      <input formControlName="vatExemptionReason" type="text" placeholder="Optional" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Payment Reference <span class="text-slate-500">(optional)</span></label>
+      <input formControlName="paymentReference" type="text" placeholder="Optional" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Notes <span class="text-slate-500">(optional)</span></label>
+      <textarea formControlName="notes" rows="3" placeholder="Optional" class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <button type="button" *ngIf="!isSubmitting" (click)="createInvoice()" class="shadow rounded py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white cursor-pointer transition-colors">
+        Create Invoice
+      </button>
+      <app-loader *ngIf="isSubmitting"></app-loader>
+    </div>
+  </form>
+</app-generic-off-canvas-drawer>
+

@@ -1,0 +1,156 @@
+<div *ngIf="invoice; else loading">
+  <!-- Page header -->
+  <div class="flex justify-between w-full items-center mb-6">
+    <div class="flex items-center gap-4">
+      <a [routerLink]="['/portal/invoices']"
+        class="text-slate-400 hover:text-white text-sm flex items-center gap-1 transition-colors">
+        ← Invoices
+      </a>
+      <h1 class="text-2xl font-bold">{{ invoice.invoiceNumber }}</h1>
+    </div>
+    <button (click)="generatePdf()"
+      class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded cursor-pointer transition-colors flex items-center gap-2">
+      ↓ Generate PDF
+    </button>
+  </div>
+
+  <!-- Invoice metadata -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+    <!-- From -->
+    <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+      <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">From</p>
+      <p class="font-semibold text-white">{{ company?.name ?? invoice.companyName }}</p>
+      <p *ngIf="company" class="text-slate-400 text-sm mt-1">
+        {{ company.street }} {{ company.houseNumber }}<br/>
+        {{ company.postalCode }} {{ company.city }}<br/>
+        {{ company.country }}
+      </p>
+      <p *ngIf="company?.email" class="text-slate-400 text-sm">{{ company!.email }}</p>
+      <p *ngIf="company?.vatNumber" class="text-slate-400 text-sm">VAT: {{ company!.vatNumber }}</p>
+    </div>
+
+    <!-- To -->
+    <div class="bg-slate-800 rounded-lg p-4 border border-slate-700">
+      <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Bill To</p>
+      <p class="font-semibold text-white">{{ customer?.name ?? invoice.customerName }}</p>
+      <p *ngIf="customer" class="text-slate-400 text-sm mt-1">
+        {{ customer.street }} {{ customer.houseNumber }}<br/>
+        {{ customer.postalCode }} {{ customer.city }}<br/>
+        {{ customer.country }}
+      </p>
+      <p *ngIf="customer?.contactPerson" class="text-slate-400 text-sm">{{ customer!.contactPerson }}</p>
+      <p *ngIf="customer?.email" class="text-slate-400 text-sm">{{ customer!.email }}</p>
+      <p *ngIf="customer?.vatNumber" class="text-slate-400 text-sm">VAT: {{ customer!.vatNumber }}</p>
+    </div>
+
+    <!-- Invoice details -->
+    <div class="bg-slate-800 rounded-lg p-4 border border-slate-700 flex flex-col gap-3">
+      <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">Invoice Details</p>
+      <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+        <span class="text-slate-400">Invoice Date</span>
+        <span>{{ invoice.invoiceDate | date:'mediumDate' }}</span>
+        <span class="text-slate-400">Due Date</span>
+        <span>{{ invoice.dueDate | date:'mediumDate' }}</span>
+        <span class="text-slate-400">Currency</span>
+        <span>{{ invoice.currency }}</span>
+        <ng-container *ngIf="invoice.paymentReference">
+          <span class="text-slate-400">Reference</span>
+          <span>{{ invoice.paymentReference }}</span>
+        </ng-container>
+        <ng-container *ngIf="company?.bankAccountNumber">
+          <span class="text-slate-400">Bank Account</span>
+          <span>{{ company!.bankAccountNumber }}</span>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div *ngIf="invoice.notes" class="bg-slate-800 rounded-lg p-4 border border-slate-700 mb-6">
+    <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">Notes</p>
+    <p class="text-slate-300 text-sm whitespace-pre-wrap">{{ invoice.notes }}</p>
+  </div>
+
+  <!-- Invoice Lines -->
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold">Invoice Lines</h2>
+    <button (click)="addInvoiceLine($event)"
+      class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded cursor-pointer transition-colors">
+      + Add Line
+    </button>
+  </div>
+
+  <app-generic-datagrid [data]="invoiceLines" (next)="onNext()" (previous)="onPrevious()">
+    <app-generic-datagrid-columns>
+      <app-generic-datagrid-column>Description</app-generic-datagrid-column>
+      <app-generic-datagrid-column>Qty / Unit</app-generic-datagrid-column>
+      <app-generic-datagrid-column>Unit Price</app-generic-datagrid-column>
+      <app-generic-datagrid-column>Discount</app-generic-datagrid-column>
+      <app-generic-datagrid-column>VAT %</app-generic-datagrid-column>
+      <app-generic-datagrid-column>Total</app-generic-datagrid-column>
+      <app-generic-datagrid-column>Actions</app-generic-datagrid-column>
+    </app-generic-datagrid-columns>
+    <app-generic-datagrid-row *ngFor="let line of invoiceLines?.data" [item]="line">
+      <app-generic-datagrid-cell>{{ line.description }}</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>{{ line.quantity }} {{ line.unit }}</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>{{ line.unitPrice | currency:invoice.currency }}</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>{{ line.discountAmount > 0 ? (line.discountAmount | currency:invoice.currency) : '—' }}</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>{{ line.vatPercentage }}%</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>{{ line.total | currency:invoice.currency }}</app-generic-datagrid-cell>
+      <app-generic-datagrid-cell>
+        <div class="flex gap-2">
+          <button (click)="editInvoiceLine($event, line)"
+            class="px-2 py-1 text-xs bg-blue-600/20 text-blue-400 rounded hover:bg-blue-600/30 cursor-pointer">Edit</button>
+          <button (click)="deleteInvoiceLine($event, line)"
+            class="px-2 py-1 text-xs bg-red-600/20 text-red-400 rounded hover:bg-red-600/30 cursor-pointer">Delete</button>
+        </div>
+      </app-generic-datagrid-cell>
+    </app-generic-datagrid-row>
+  </app-generic-datagrid>
+
+  <!-- Totals -->
+  <div class="flex justify-end mt-4">
+    <div class="w-72 bg-slate-800 rounded-lg border border-slate-700 p-4 flex flex-col gap-2 text-sm">
+      <div class="flex justify-between">
+        <span class="text-slate-400">Subtotal (excl. VAT)</span>
+        <span>{{ invoice.totalExcludingVat | currency:invoice.currency }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-400">VAT</span>
+        <span>{{ invoice.vatAmount | currency:invoice.currency }}</span>
+      </div>
+      <div *ngIf="invoice.vatExemptionReason" class="text-xs text-slate-500 italic">
+        {{ invoice.vatExemptionReason }}
+      </div>
+      <div class="flex justify-between pt-2 border-t border-slate-600 text-base font-bold">
+        <span>Total Due</span>
+        <span class="text-white">{{ invoice.totalIncludingVat | currency:invoice.currency }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="flex items-center justify-center h-48 text-slate-500">
+    Loading invoice…
+  </div>
+</ng-template>
+
+<app-create-invoice-line
+  #createLineDrawer
+  [invoiceId]="invoiceId!"
+  (drawerClosed)="loadInvoiceLines()">
+</app-create-invoice-line>
+
+<app-edit-invoice-line
+  #editLineDrawer
+  [invoiceId]="invoiceId!"
+  (drawerClosed)="loadInvoiceLines()">
+</app-edit-invoice-line>
+
+<app-delete-invoice-line
+  #deleteLineDrawer
+  [invoiceId]="invoiceId!"
+  (drawerClosed)="loadInvoiceLines()">
+</app-delete-invoice-line>
+

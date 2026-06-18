@@ -1,0 +1,27 @@
+<app-generic-off-canvas-drawer #drawer title="Delete Invoice Line">
+  <div class="flex flex-col gap-4">
+    <div>
+      Are you sure you want to delete this invoice line?
+    </div>
+    <div *ngIf="line" class="bg-slate-800 rounded p-3 text-sm text-slate-300">
+      <span class="font-medium text-white">{{ line.description }}</span>
+      &nbsp;&mdash;&nbsp;{{ line.quantity }} {{ line.unit }} &times; {{ line.unitPrice }}
+    </div>
+    <div class="font-bold text-red-400">
+      This cannot be undone.
+    </div>
+    <div class="flex justify-between items-center">
+      <label class="py-2 cursor-pointer flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="isChecked" class="cursor-pointer" />
+        <span>I am sure</span>
+      </label>
+      <div class="flex justify-end" *ngIf="isChecked">
+        <button *ngIf="!isSubmitting" (click)="deleteInvoiceLine()"
+          class="shadow rounded py-2 px-4 bg-red-600 hover:bg-red-700 text-white cursor-pointer transition-colors">
+          Delete
+        </button>
+        <app-loader *ngIf="isSubmitting"></app-loader>
+      </div>
+    </div>
+  </div>
+</app-generic-off-canvas-drawer>

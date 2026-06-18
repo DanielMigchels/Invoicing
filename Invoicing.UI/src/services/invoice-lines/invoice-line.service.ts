@@ -11,7 +11,7 @@ export class InvoiceLineService {
   private http = inject(HttpClient);
 
   private apiUrl(invoiceId: string): string {
-    return `/api/invoice/${invoiceId}/invoiceline`;
+    return `/api/invoiceline/${invoiceId}`;
   }
 
   getAll(invoiceId: string, page = 1, pageSize = 25): Observable<PaginatedList<InvoiceLineResponseModel>> {

@@ -1,0 +1,70 @@
+<app-generic-off-canvas-drawer #drawer title="Edit Invoice Line">
+  <form [formGroup]="formGroup" class="flex flex-col gap-4">
+
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium">Description</label>
+      <input formControlName="description" type="text" placeholder="Service or product description"
+        class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      <div *ngIf="formGroup.get('description')?.invalid && formGroup.get('description')?.touched" class="text-red-400 text-sm">
+        <span *ngIf="formGroup.get('description')?.errors?.['required']">Description is required.</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Quantity</label>
+        <input formControlName="quantity" type="number" min="0" step="1" placeholder="1"
+          class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('quantity')?.invalid && formGroup.get('quantity')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('quantity')?.errors?.['required']">Quantity is required.</span>
+          <span *ngIf="formGroup.get('quantity')?.errors?.['min']">Must be 0 or more.</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Unit</label>
+        <input formControlName="unit" type="text" placeholder="pcs, hr, kg…"
+          class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('unit')?.invalid && formGroup.get('unit')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('unit')?.errors?.['required']">Unit is required.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Unit Price</label>
+        <input formControlName="unitPrice" type="number" min="0" step="0.01" placeholder="0.00"
+          class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Discount</label>
+        <input formControlName="discountAmount" type="number" min="0" step="0.01" placeholder="0.00"
+          class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">VAT %</label>
+        <input formControlName="vatPercentage" type="number" min="0" max="100" step="1" placeholder="21"
+          class="bg-slate-900 w-full px-3 py-2 rounded placeholder:text-slate-500 border border-slate-700 focus:outline-none focus:border-blue-500" />
+        <div *ngIf="formGroup.get('vatPercentage')?.invalid && formGroup.get('vatPercentage')?.touched" class="text-red-400 text-sm">
+          <span *ngIf="formGroup.get('vatPercentage')?.errors?.['required']">VAT % is required.</span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium">Line Total <span class="text-slate-500">(incl. VAT)</span></label>
+        <input formControlName="total" type="number" readonly
+          class="bg-slate-800 w-full px-3 py-2 rounded border border-slate-700 text-slate-300 cursor-not-allowed" />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <button type="button" *ngIf="!isSubmitting" (click)="updateInvoiceLine()"
+        class="shadow rounded py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white cursor-pointer transition-colors">
+        Update Line
+      </button>
+      <app-loader *ngIf="isSubmitting"></app-loader>
+    </div>
+  </form>
+</app-generic-off-canvas-drawer>

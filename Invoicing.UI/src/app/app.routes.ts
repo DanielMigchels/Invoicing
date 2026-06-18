@@ -6,6 +6,7 @@ import { BaseLayoutComponent } from './layout/base-layout-component/base-layout-
 import { WebPage } from './web-page/web-page';
 import { Login } from './login/login';
 import { Invoices } from './invoices/invoices';
+import { InvoiceDetails } from './invoice-details/invoice-details';
 import { Companies } from './companies/companies';
 import { Customers } from './customers/customers';
 import { Portal } from './portal/portal';
@@ -25,6 +26,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: Portal },
       { path: 'invoices', component: Invoices },
+      { path: 'invoices/:id', component: InvoiceDetails },
       { path: 'customers', component: Customers },
       { path: 'companies', component: Companies },
     ]
