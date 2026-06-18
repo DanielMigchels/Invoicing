@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace Invoicing.API.Controllers;
 
-public class InvoicingControllerBase : ControllerBase
+public class AppControllerBase : ControllerBase
 {
     protected string UserId => HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 }

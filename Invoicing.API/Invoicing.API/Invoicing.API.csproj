@@ -24,4 +24,11 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Companies\Models\" />
+    <Folder Include="Services\Customers\Models\" />
+    <Folder Include="Services\InvoiceLines\Models\" />
+    <Folder Include="Services\Invoices\Models\" />
+  </ItemGroup>
+
 </Project>

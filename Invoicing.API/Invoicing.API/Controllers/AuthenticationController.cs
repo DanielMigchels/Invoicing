@@ -1,5 +1,6 @@
 ﻿using Invoicing.API.Services.Authentication;
 using Invoicing.API.Services.Authentication.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Invoicing.API.Controllers;
@@ -15,6 +16,7 @@ public class AuthenticationController(IAuthenticationService authenticationServi
         return Ok(result);
     }
 
+    [Authorize]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestModel registerRequestModel)
     {

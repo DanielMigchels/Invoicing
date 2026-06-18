@@ -8,7 +8,7 @@ namespace Invoicing.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class UserController(IUserService userService) : InvoicingControllerBase
+public class UserController(IUserService userService) : AppControllerBase
 {
     [Authorize]
     [HttpGet]
