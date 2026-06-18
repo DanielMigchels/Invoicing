@@ -10,13 +10,6 @@ namespace Invoicing.API.Controllers;
 [Authorize]
 public class InvoiceLineController(IInvoiceLineService invoiceLineService) : AppControllerBase
 {
-    [HttpGet]
-    public async Task<IActionResult> GetAll(Guid invoiceId, [FromQuery] int page = 1, [FromQuery] int pageSize = 25)
-    {
-        var result = await invoiceLineService.GetAll(UserId, invoiceId, page, pageSize);
-        return Ok(result);
-    }
-
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid invoiceId, Guid id)
     {
