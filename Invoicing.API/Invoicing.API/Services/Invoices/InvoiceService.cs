@@ -130,7 +130,12 @@ public class InvoiceService(DatabaseContext databaseContext, IInvoicePdfGenerato
 
     public async Task<Stream?> DownloadPdf(string userId, Guid id)
     {
-        var invoice = await GetById(userId, id);
+        var invoice = await databaseContext.Invoices
+            .Include(i => i.Company)
+            .Include(i => i.Customer)
+            .Include(i => i.InvoiceLines)
+            .Where(i => i.UserId == userId && i.Id == id)
+            .FirstOrDefaultAsync();
 
         if (invoice == null)
         {
