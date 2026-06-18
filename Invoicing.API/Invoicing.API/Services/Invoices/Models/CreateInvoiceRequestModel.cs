@@ -1,23 +1,25 @@
-﻿namespace Invoicing.API.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class Invoice
+namespace Invoicing.API.Services.Invoices.Models;
+
+public class CreateInvoiceRequestModel
 {
-    public Guid Id { get; set; }
-
-    public User? User { get; set; }
-    public string UserId { get; set; } = string.Empty;
-
+    [Required]
     public string InvoiceNumber { get; set; } = string.Empty;
 
+    [Required]
     public DateOnly InvoiceDate { get; set; }
+
+    [Required]
     public DateOnly DueDate { get; set; }
 
+    [Required]
     public Guid CompanyId { get; set; }
+
+    [Required]
     public Guid CustomerId { get; set; }
 
-    public Company Company { get; set; } = null!;
-    public Customer Customer { get; set; } = null!;
-
+    [Required]
     public string Currency { get; set; } = "EUR";
 
     public decimal TotalExcludingVat { get; set; }
@@ -25,10 +27,6 @@ public class Invoice
     public decimal TotalIncludingVat { get; set; }
 
     public string? VatExemptionReason { get; set; }
-
     public string? PaymentReference { get; set; }
-
     public string? Notes { get; set; }
-
-    public virtual ICollection<InvoiceLine> InvoiceLines { get; set; } = [];
 }

@@ -1,24 +1,32 @@
-﻿namespace Invoicing.API.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class Customer
+namespace Invoicing.API.Services.Customers.Models;
+
+public class CreateCustomerRequestModel
 {
-    public Guid Id { get; set; }
-    
-    public User? User { get; set; }
-    public string UserId { get; set; } = string.Empty;
-
+    [Required]
     public string Name { get; set; } = string.Empty;
 
+    [Required]
     public string Street { get; set; } = string.Empty;
+
+    [Required]
     public string HouseNumber { get; set; } = string.Empty;
+
+    [Required]
     public string PostalCode { get; set; } = string.Empty;
+
+    [Required]
     public string City { get; set; } = string.Empty;
+
+    [Required]
     public string Country { get; set; } = "Nederland";
 
     public string? ContactPerson { get; set; }
 
+    [EmailAddress]
     public string? Email { get; set; }
-    public string? PhoneNumber { get; set; }
 
+    public string? PhoneNumber { get; set; }
     public string? VatNumber { get; set; }
 }
