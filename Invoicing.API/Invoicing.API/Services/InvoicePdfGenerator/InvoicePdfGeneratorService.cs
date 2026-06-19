@@ -101,28 +101,13 @@ public class InvoicePdfGeneratorService : IInvoicePdfGeneratorService
     private static void DrawHeaderBand(XGraphics gfx, PdfPage page, Invoice invoice, XFont headingFont, XFont bodyFont, XFont smallItalic)
     {
         var headerColor = XColor.FromArgb(20, 56, 110);
-        gfx.DrawRectangle(new XSolidBrush(headerColor), 0, 0, page.Width.Point, 60);
 
         gfx.DrawString(
             "FACTUUR",
             headingFont,
-            XBrushes.White,
-            new XRect(Margin, 14, page.Width.Point - (Margin * 2), 30),
+            XBrushes.Black,
+            new XRect(Margin, 50, page.Width.Point - (Margin * 2), 30),
             XStringFormats.TopLeft);
-
-        gfx.DrawString(
-            invoice.Company?.Name ?? string.Empty,
-            bodyFont,
-            XBrushes.White,
-            new XRect(Margin, 38, page.Width.Point - (Margin * 2), 20),
-            XStringFormats.TopLeft);
-
-        gfx.DrawString(
-            "Conform Nederlandse factuureisen",
-            smallItalic,
-            XBrushes.White,
-            new XRect(Margin, 52, page.Width.Point - (Margin * 2), 10),
-            XStringFormats.TopRight);
     }
 
     private static double DrawPartiesSection(
@@ -142,7 +127,7 @@ public class InvoicePdfGeneratorService : IInvoicePdfGeneratorService
         y += 18;
 
         y = DrawAddressBlock(gfx, invoice.Company?.Name ?? string.Empty, CompanyAddress(invoice.Company), bodyFont, leftX, y, columnWidth);
-        var rightY = DrawAddressBlock(gfx, invoice.Customer?.Name ?? string.Empty, CustomerAddress(invoice.Customer), bodyFont, rightX, y - (LineHeight * 4), columnWidth);
+        var rightY = DrawAddressBlock(gfx, invoice.Customer?.Name ?? string.Empty, CustomerAddress(invoice.Customer), bodyFont, rightX, y - (LineHeight * 5), columnWidth);
 
         return Math.Max(y, rightY);
     }
@@ -169,7 +154,7 @@ public class InvoicePdfGeneratorService : IInvoicePdfGeneratorService
 
         var paymentReference = string.IsNullOrWhiteSpace(invoice.PaymentReference) ? "-" : invoice.PaymentReference;
         y = DrawLabelValue(gfx, "Betalingskenmerk", paymentReference, bodyFont, Margin, y, halfWidth - 12);
-        rightY = DrawLabelValue(gfx, "Klantnummer", invoice.CustomerId.ToString()[..8], bodyFont, rightColX, rightY, halfWidth - 12);
+        // rightY = DrawLabelValue(gfx, "Klantnummer", invoice.CustomerId.ToString()[..8], bodyFont, rightColX, rightY, halfWidth - 12);
 
         return Math.Max(y, rightY);
     }
@@ -323,7 +308,7 @@ public class InvoicePdfGeneratorService : IInvoicePdfGeneratorService
 
     private static void DrawFooter(XGraphics gfx, PdfPage page, Invoice invoice, XFont smallFont)
     {
-        var footerText = $"Factuur {invoice.InvoiceNumber} - gegenereerd op {DateTime.Now:dd-MM-yyyy HH:mm}";
+        var footerText = $"Factuur {invoice.InvoiceNumber} - Gemaakt op {DateTime.Now:dd-MM-yyyy HH:mm}";
         gfx.DrawLine(XPens.LightGray, Margin, page.Height.Point - BottomMargin + 6, page.Width.Point - Margin, page.Height.Point - BottomMargin + 6);
         gfx.DrawString(
             footerText,
